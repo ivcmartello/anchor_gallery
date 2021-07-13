@@ -1,4 +1,5 @@
 from django.db import models
+from .helpers import get_client_ip
 
 import uuid
 
@@ -21,7 +22,7 @@ class Photo(models.Model):
     submitter = models.CharField(max_length=100)
 
     def like_manager(self, request):
-        user_ip = request.META.get('REMOTE_ADDR')
+        user_ip = get_client_ip(request)
         like_obj = Like.objects.filter(photo_uuid=self.uuid, user_ip=user_ip)
 
         liked = False

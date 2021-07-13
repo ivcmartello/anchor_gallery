@@ -1,5 +1,6 @@
 from django import template
 from album.models import Like
+from album.helpers import get_client_ip
 
 register = template.Library()
 
@@ -7,7 +8,7 @@ register = template.Library()
 def is_liked(request, uuid):
     # Check if a photo is liked by the user
 
-    user_ip = request.META.get('REMOTE_ADDR')
+    user_ip = get_client_ip(request)
     is_liked = Like.objects.filter(user_ip=user_ip, photo_uuid=uuid).exists()
 
     return not is_liked
