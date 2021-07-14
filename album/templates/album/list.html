@@ -8,7 +8,7 @@
         <a href="{% url 'photo:detail' photo.uuid %}">
           {% thumbnail photo.image "300x200" crop="center" as im %}
           <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail" />
-          {% endthumbnail %}
+          {% empty %} {% endthumbnail %}
         </a>
       </div>
       <div class="card-body">

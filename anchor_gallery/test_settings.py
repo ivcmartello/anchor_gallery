@@ -9,11 +9,8 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-import django_heroku
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
+import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -23,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY')
+SECRET_KEY = 'n!vj+8e)zztppg)ea=f-3lv-*$&-l614o$@70pnttm7d+2d6c#'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG') == 'True'
+DEBUG = True
 
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'storages',
-    'boto3',
+    'coverage',
     'crispy_forms',
-    'rest_framework',
     'sorl.thumbnail',
+    'rest_framework',
     'album',
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -84,12 +81,8 @@ WSGI_APPLICATION = 'anchor_gallery.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASSWORD'),
-        'HOST': os.getenv('DB_HOST'),
-        'PORT': os.getenv('DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'test_database',
     }
 }
 
@@ -112,53 +105,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-def get_cache():
-    try:
-        servers = os.getenv('MEMCACHIER_SERVERS', None)
-        if not servers:
-            raise Exception('Servers not defined!')
-        username = os.getenv('MEMCACHIER_USERNAME')
-        password = os.getenv('MEMCACHIER_PASSWORD')
-        return {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-                # TIMEOUT is not the connection timeout! It's the default expiration
-                # timeout that should be applied to keys! Setting it to `None`
-                # disables expiration.
-                'TIMEOUT': None,
-                'LOCATION': servers,
-                'OPTIONS': {
-                    'binary': True,
-                    'username': username,
-                    'password': password,
-                    'behaviors': {
-                        # Enable faster IO
-                        'no_block': True,
-                        'tcp_nodelay': True,
-                        # Keep connection alive
-                        'tcp_keepalive': True,
-                        # Timeout settings
-                        'connect_timeout': 2000, # ms
-                        'send_timeout': 750 * 1000, # us
-                        'receive_timeout': 750 * 1000, # us
-                        '_poll_timeout': 2000, # ms
-                        # Better failover
-                        'ketama': True,
-                        'remove_failed': 1,
-                        'retry_timeout': 2,
-                        'dead_timeout': 30,
-                    }
-                }
-            }
-        }
-    except:
-        return {
-            'default': {
-                'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
-            }
-        }
-
-CACHES = get_cache()
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
@@ -177,22 +128,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-AWS_STORAGE_BUCKET_NAME = 'anchor-gallery'
-AWS_S3_REGION_NAME = 'us-east-1'
-AWS_PRELOAD_METADATA = False
-
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-STATIC_URL = 'http://' + AWS_STORAGE_BUCKET_NAME + '.s3.amazonaws.com/'
+STATIC_URL = 'staticfiles/'
 ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-THUMBNAIL_FORCE_OVERWRITE = True
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+# Tell nose to measure coverage on the 'foo' and 'bar' apps
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=album,api',
+]

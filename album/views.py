@@ -15,7 +15,7 @@ class PhotoListView(ListView):
     
     def get_queryset(self):
         """Returns Photos that were approved"""
-        return Photo.objects.filter(approved=True).order_by('created_at')
+        return Photo.objects.filter(approved=True).order_by('-created_at')
 
 
 class PhotoDetailView(DetailView):

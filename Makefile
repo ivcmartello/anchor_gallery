@@ -8,11 +8,11 @@ help: ## Show this help
 
 .PHONY: venv
 venv: ## Make a new virtual environment
-	python3 -m venv $(VENV) && source $(BIN)/activate
+	python3 -m venv $(VENV) && source $(VENV)/bin/activate
 
 .PHONY: install
 install: venv ## Make venv and install requirements
-	$(BIN)/pip install -r requirements.txt
+	$(BIN)/pip install -r requirements-dev.txt
 
 migrate: ## Make and run migrations
 	$(PYTHON) manage.py makemigrations
@@ -20,7 +20,7 @@ migrate: ## Make and run migrations
 
 .PHONY: test
 test: ## Run tests
-	$(PYTHON) $(APP_DIR) manage.py test . --verbosity=2 --parallel --failfast
+	$(PYTHON) $(APP_DIR) manage.py test . --verbosity=2 --parallel --failfast --settings $(DJANGO_SETTINGS_MODULE_TEST)
 
 .PHONY: run
 run: ## Run the Django server
