@@ -9,6 +9,6 @@ def is_liked(request, uuid):
     # Check if a photo is liked by the user
 
     user_ip = get_client_ip(request)
-    is_liked = Like.objects.filter(user_ip=user_ip, photo_uuid=uuid).exists()
+    is_liked = Like.objects.filter(user_ip=user_ip, photo=uuid).exists()
 
     return not is_liked
