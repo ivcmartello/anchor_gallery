@@ -18,6 +18,10 @@ migrate: ## Make and run migrations
 	$(PYTHON) manage.py makemigrations
 	$(PYTHON) manage.py migrate
 
+.PHONY: super
+super: ## Create super user to access admin system
+	$(PYTHON) manage.py createsuperuser
+
 .PHONY: test
 test: ## Run tests
 	$(PYTHON) $(APP_DIR) manage.py test . --verbosity=2 --parallel --failfast --settings=$(DJANGO_SETTINGS_MODULE_TEST)
