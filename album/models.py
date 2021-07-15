@@ -1,5 +1,6 @@
 from django.db import models
 from .helpers import get_client_ip
+from sorl.thumbnail import ImageField
 
 import uuid
 
@@ -11,7 +12,7 @@ class Photo(models.Model):
     )
     created_at = models.DateTimeField(auto_now_add=True) 
     title = models.CharField(max_length=300)
-    image = models.ImageField()
+    image = ImageField(upload_to="images", blank=True)
     approved = models.BooleanField(default=False)
     submitter = models.CharField(max_length=100)
 

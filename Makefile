@@ -20,7 +20,7 @@ migrate: ## Make and run migrations
 
 .PHONY: test
 test: ## Run tests
-	$(PYTHON) $(APP_DIR) manage.py test . --verbosity=2 --parallel --failfast --settings $(DJANGO_SETTINGS_MODULE_TEST)
+	$(PYTHON) $(APP_DIR) manage.py test . --verbosity=2 --parallel --failfast --settings=$(DJANGO_SETTINGS_MODULE_TEST)
 
 .PHONY: run
 run: ## Run the Django server
