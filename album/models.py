@@ -7,6 +7,7 @@ import uuid
 # Create your models here.
 
 class Photo(models.Model):
+    '''Photo model.'''
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False,
     )
@@ -17,6 +18,7 @@ class Photo(models.Model):
     submitter = models.CharField(max_length=100)
 
     def like_manager(self, request):
+        '''Like or dislike photo.'''
         user_ip = get_client_ip(request)
         like_obj = self.likes.filter(user_ip=user_ip)
 
@@ -29,19 +31,21 @@ class Photo(models.Model):
 
         return liked, self.like_count
 
-    # Number of likes
     @property
     def like_count(self):
+        '''Number of likes'''
         return self.likes.only('photo').count()
 
 
 class Like(models.Model):
+    '''Like model.'''
     user_ip = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     photo = models.ForeignKey(Photo, related_name="likes", on_delete=models.CASCADE)
 
 
 class Comment(models.Model):
+    '''Comment model.'''
     uuid = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False,
     )

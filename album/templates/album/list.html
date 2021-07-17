@@ -1,32 +1,61 @@
 {% extends 'base.html' %} {% load tag_extras %} {% load thumbnail %} {% block body %}
 
 <div class="row">
-  {% for photo in page_obj %}
-  <div class="col-lg-3 col-md-4 col-xs-6 p-1">
-    <div class="card md-4 box-shadow">
-      <div class="text-center p-2">
-        <a href="{% url 'photo:detail' photo.uuid %}">
-          {% thumbnail photo.image "300x200" crop="center" as im %}
-          <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail" />
-          {% empty %}
-          <p>No image</p>
-          {% endthumbnail %}
-        </a>
-      </div>
-      <div class="card-body">
-        <p class="card-text">{{ photo.submitter }}</p>
-        <div class="btn-group">
-          <button type="button" class="btn btn-sm btn-outline-secondary" onclick="like('{{ photo.uuid }}');"><spam id="s-like-{{ photo.uuid }}">{{ photo.like_count }}</spam> <i class="fas fa-heart ml-1" {% is_liked request photo.uuid as is_liked %}{% if is_liked %}style="color:red;" {% else %}style="color:grey;" {% endif %}name="like-{{ photo.uuid }}"></i> Like</button>
-        </div>
-        <small class="text-muted"> {{ photo.created_at }} </small>
-      </div>
-    </div>
+  <div class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box">
+    <span>Memories</span>
+    <h2>Wedding Gallery</h2>
+    <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
   </div>
-  {% endfor %}
 </div>
 
+<div class="row row-bottom-padded-md">
+  <div id="box" class="col-md-12">
+    <ul id="fh5co-gallery-list">
+      {% for photo in page_obj %}
+      <li class="card md-4 one-third animate-box" data-animate-effect="fadeIn">
+        <div class="text-center p-2">
+          <a href="{% url 'photo:detail' photo.uuid %}">
+            {% thumbnail photo.image "300x350" crop="center" as im %}
+            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-responsive" />
+            {% empty %}
+            <p>No image</p>
+            {% endthumbnail %}
+          </a>
+        </div>
+        <div class="card-body">
+          <div class="btn-group" style="margin-top: 5px">
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="like('{{ photo.uuid }}');">
+              <spam id="s-like-{{ photo.uuid }}">{{ photo.like_count }}</spam>
+              <i class="icon-heart2" {% is_liked request photo.uuid as is_liked %}{% if is_liked %}style="color:#f14e95;" {% else %}style="color:grey;" {% endif %}name="like-{{ photo.uuid }}"></i> Like
+            </button>
+          </div>
+          <small class="text-muted"> {{ photo.created_at }} </small>
+        </div>
+      </li>
+      {%endfor%}
+    </ul>
+  </div>
+</div>
+
+<style>
+  .text-center .pagination > li > a,
+  .text-center .pagination > li > span {
+    border: 0px;
+    color: #bdbdbd;
+  }
+  .pagination > .active > a,
+  .pagination > .active > a:focus,
+  .pagination > .active > a:hover,
+  .pagination > .active > span,
+  .pagination > .active > span:focus,
+  .pagination > .active > span:hover {
+    background: #f14e95;
+    color: #fff;
+  }
+</style>
+
 {% if page_obj.paginator.num_pages > 1 %}
-<nav aria-label="Page navigation">
+<nav class="text-center one-third animate-box" data-animate-effect="fadeIn"">
   <ul class="pagination justify-content-center p-2">
     {% if page_obj.paginator.num_pages != 1 %}
     <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
@@ -70,7 +99,7 @@
         if (data.liked) {
           like_btn.attr("style", "color:grey;");
         } else {
-          like_btn.attr("style", "color:red;");
+          like_btn.attr("style", "color:#f14e95;");
         }
         s_like_btn.text(data.like_count);
       },

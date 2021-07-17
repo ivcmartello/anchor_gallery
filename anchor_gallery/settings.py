@@ -75,6 +75,7 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'anchor_gallery.wsgi.application'
 
 
@@ -142,7 +143,7 @@ AWS_PRELOAD_METADATA = False
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 if AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -150,8 +151,8 @@ THUMBNAIL_DEBUG = DEBUG
 THUMBNAIL_PREFIX =  'cache/'
 
 # Activate Django-Heroku.
-import django_heroku
-django_heroku.settings(locals())
+import django_on_heroku
+django_on_heroku.settings(locals())
 
 def get_cache():
     try:

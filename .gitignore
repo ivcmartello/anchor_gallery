@@ -132,3 +132,5 @@ dmypy.json
 staticfiles/
 static/
 media/
+data/
+docker.env

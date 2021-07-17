@@ -1,13 +1,13 @@
 {% extends 'base.html' %} 
-{% load crispy_forms_tags %}
 {% load thumbnail %}
 {% block body %}
 
-<div class="mx-auto">
+<div class="mx-auto fh5co-heading animate-box">
   <h1 class="text-center">{{ photo.title }}</h1>
   <p class="text-center fw-light">Uploaded on: {{photo.created_at}} <br> By {{photo.submitter}}</p>
 </div>
-<div class="row pb-5">
+
+<div class="row pb-5 animate-box">
   <div class="text-center p-2">
     {% thumbnail photo.image "800x600" as im %}
     <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail"/>
@@ -15,39 +15,42 @@
   </div>
 </div>
 
-<h2>Leave your comment!</h2>
-<div id="comments_section">
+<div class="animate-box" style="margin-top: 50px">
+  <h3>Leave your comment!</h3>
+  <div id="comments_section">
 
-  <div class="form-group">
-    <form action="" method="post">
-      {% csrf_token %}
-      {{ comment_form|crispy }}
-      </br>
-      <button type="submit" class="btn btn-success mb-3">Add comment <i class="fas fa-comments"></i></button>
-    </form>
+    {% load crispy_forms_tags %}
+
+    <div class="form-group">
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ comment_form|crispy }}
+        </br>
+        <button type="submit" class="btn btn-primary">Add comment</button>
+      </form>
+    </div>
+
+    {% if comments %}
+      <hr>
+      <ul>
+        {% for comment in comments %}
+          <li>           
+            <div>
+              <span>
+                <strong class="text-info">{{ comment.author }} </strong>
+                <small class="text-muted">{{ comment.created_at }}</small>
+              </span>
+              <p>
+                {{ comment.content|safe }}
+              </p>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <strong class="text-secondary">No comments yet...</strong>
+    {% endif %}
+
   </div>
-
-  {% if comments %}
-    <hr>
-    <ul>
-      {% for comment in comments %}
-        <li>           
-          <div>
-            <span>
-              <strong class="text-info">{{ comment.author }} </strong>
-              <small class="text-muted">{{ comment.created_at }}</small>
-            </span>
-            <p>
-              {{ comment.content|safe }}
-            </p>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <strong class="text-secondary">No comments yet...</strong>
-  {% endif %}
-
 </div>
-
 {% endblock body %}

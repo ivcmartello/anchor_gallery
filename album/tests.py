@@ -5,6 +5,7 @@ from .templatetags.tag_extras import is_liked
 from .helpers import get_client_ip
 from .forms import CommentForm
 from .models import Photo
+from .views import PhotoListView
 
 # Create your tests here.
 
@@ -69,6 +70,13 @@ class TestPhotoViews(TestCase):
         response = self.client.get(self.url_list)
 
         self.assertEqual(response.status_code, 200)
+        
+    def test_photo_list_view_get_queryset(self):
+        view = PhotoListView()
+        view.request = self.factory.get('/xyz')
+        qs = view.get_queryset()
+        
+        self.assertQuerysetEqual(qs, Photo.objects.filter(approved=True).order_by('-created_at'))
         
     def test_get_photo_detail_view(self):
         response = self.client.get(self.url_detail)

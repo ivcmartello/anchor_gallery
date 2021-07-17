@@ -24,10 +24,10 @@ super: ## Create super user to access admin system
 
 .PHONY: test
 test: ## Run tests
-	$(PYTHON) $(APP_DIR) manage.py test . --verbosity=2 --parallel --failfast --settings=$(DJANGO_SETTINGS_MODULE_TEST)
+	DJANGO_SETTINGS_MODULE=anchor_gallery.settings_test coverage erase && coverage run manage.py test --verbosity=2 --failfast && coverage report -m
 
 .PHONY: run
 run: ## Run the Django server
-	$(PYTHON) $(APP_DIR) manage.py runserver
+	$(PYTHON) manage.py runserver
 
 start: install migrate run ## Install requirements, apply migrations, then start development server

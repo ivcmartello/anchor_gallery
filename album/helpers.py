@@ -1,5 +1,6 @@
 
 def get_client_ip(request):
+    '''Returns clients ip.'''
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
