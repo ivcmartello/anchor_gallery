@@ -130,7 +130,6 @@ dmypy.json
 .pyre/
 
 staticfiles/
-static/
 media/
 data/
 docker.env
