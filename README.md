@@ -46,6 +46,8 @@ What things you need to install if you don't have:
 
 - ### Memcached
 
+- ### Git
+
 ```
 ## On Ubuntu
 
@@ -60,6 +62,18 @@ What things you need to install if you don't have:
 Follow the instructions to get a development environment running:
 
 The application will use PostgreSQL as the default database, so you need to install and configure it first.
+
+Clone or download the repository.
+
+```
+> git clone https://github.com/ivcmartello/anchor_gallery.git
+```
+
+Access the folder:
+
+```
+cd anchor_gallery
+```
 
 ## **All the commands need to be done on main project folder (The folder where you cloned or unzip the files).**
 

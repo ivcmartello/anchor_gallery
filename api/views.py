@@ -6,7 +6,7 @@ from album.models import Photo
 
 class LikeView(APIView):
   
-    """ Likes or dislike photos."""
+    """ Like or dislike photos."""
     def get(self, request):
         photo_uuid = request.GET.get('photo_uuid', '')
         photo = Photo.objects.filter(pk=photo_uuid)
