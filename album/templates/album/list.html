@@ -30,7 +30,6 @@
                   <i class="icon-heart2" {% is_liked request photo.uuid as is_liked %}{% if is_liked %}style="color:#f14e95;" {% else %}style="color:grey;" {% endif %}name="like-{{ photo.uuid }}"></i> Like
                 </button>
               </div>
-              <small class="text-muted"> {{ photo.created_at }} </small>
             </div>
           </li>
           {%endfor%}
