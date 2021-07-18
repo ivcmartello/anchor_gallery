@@ -133,3 +133,4 @@ staticfiles/
 media/
 data/
 docker.env
+.DS_Store

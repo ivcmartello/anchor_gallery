@@ -4,15 +4,29 @@
 
 This project implement an application that can store photos and comments from them (Ex. Wedding).
 
+- The main page is a list of photos, uploaded by people. Each photo can be commented clicking on it. Also the people can click on like button too.
+- There is a page used to upload photos where you can provide information and attach the photo to upload.
+- After any upload, the admin user needs to approve to show the photo in gallery. It will be done on admin site.
+
 [Demo](https://anchor-gallery-test.herokuapp.com/)
 
-Some techs approached:
+User for the admin site:
 
-Python >= 3.7.7
+```
+Username: admin
 
-Django >= 3.2
+Password: 123456
+```
 
-Memcached
+## Some technologies approached
+
+- Python >= 3.7.7
+
+- Django >= 3.2
+
+- Memcached
+
+- PostgreSQL
 
 ## Getting Started
 
@@ -28,7 +42,7 @@ What things you need to install if you don't have:
 
 - ### [PostgreSQL](https://www.postgresql.org/download/)
 
-- ### memcached
+- ### Memcached
 
 ```
 ## On Ubuntu
@@ -44,6 +58,8 @@ What things you need to install if you don't have:
 Follow the instructions to get a development environment running:
 
 The application will use PostgreSQL as the default database, so you need to install and configure it first.
+
+## **All the commands need to be done on main project folder (The folder where you cloned or unzip the files).**
 
 Create a file .env with your configurations:
 
@@ -69,11 +85,7 @@ AWS_SECRET_ACCESS_KEY=YOUR AWS SECRET ACCESS KEY
 AWS_S3_REGION_NAME=YOUR AWS REGION
 ```
 
-## **All the commands need to be done on main project folder (The folder where you cloned or unzip the files).**
-
-If your environment supports Makefiles and have permission to execute, try some shortcuts:
-
-To show the help menu type:
+There is a Makefile with some shortcuts. To show the help menu type:
 
 ```
 > make
@@ -116,7 +128,7 @@ Run migrations:
 > python3 manage.py migrate
 ```
 
-Create a super user to administrate the application:
+Create a super user:
 
 ```
 > python3 manage.py createsuperuser

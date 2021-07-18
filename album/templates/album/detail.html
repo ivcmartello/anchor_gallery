@@ -2,55 +2,62 @@
 {% load thumbnail %}
 {% block body %}
 
-<div class="mx-auto fh5co-heading animate-box">
-  <h1 class="text-center">{{ photo.title }}</h1>
-  <p class="text-center fw-light">Uploaded on: {{photo.created_at}} <br> By {{photo.submitter}}</p>
-</div>
+{% include 'banner_detail.html' %}
 
-<div class="row pb-5 animate-box">
-  <div class="text-center p-2">
-    {% thumbnail photo.image "800x600" as im %}
-    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail"/>
-    {% endthumbnail %}
-  </div>
-</div>
+<div id="fh5co-gallery">
+  <div class="container">
 
-<div class="animate-box" style="margin-top: 50px">
-  <h3>Leave your comment!</h3>
-  <div id="comments_section">
-
-    {% load crispy_forms_tags %}
-
-    <div class="form-group">
-      <form action="" method="post">
-        {% csrf_token %}
-        {{ comment_form|crispy }}
-        </br>
-        <button type="submit" class="btn btn-primary">Add comment</button>
-      </form>
+    <div class="mx-auto fh5co-heading animate-box">
+      <h1 class="text-center">{{ photo.title }}</h1>
+      <p class="text-center fw-light">Uploaded on: {{photo.created_at}} <br> By {{photo.submitter}}</p>
     </div>
 
-    {% if comments %}
-      <hr>
-      <ul>
-        {% for comment in comments %}
-          <li>           
-            <div>
-              <span>
-                <strong class="text-info">{{ comment.author }} </strong>
-                <small class="text-muted">{{ comment.created_at }}</small>
-              </span>
-              <p>
-                {{ comment.content|safe }}
-              </p>
-            </div>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <strong class="text-secondary">No comments yet...</strong>
-    {% endif %}
+    <div class="row pb-5 animate-box">
+      <div class="text-center p-2">
+        {% thumbnail photo.image "800x600" as im %}
+        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" class="img-thumbnail"/>
+        {% endthumbnail %}
+      </div>
+    </div>
 
+    <div class="animate-box" style="margin-top: 50px">
+      <h3>Leave your comment!</h3>
+      <div id="comments_section">
+
+        {% load crispy_forms_tags %}
+
+        <div class="form-group">
+          <form action="" method="post">
+            {% csrf_token %}
+            {{ comment_form|crispy }}
+            </br>
+            <button type="submit" class="btn btn-primary">Add comment</button>
+          </form>
+        </div>
+
+        {% if comments %}
+          <hr>
+          <ul>
+            {% for comment in comments %}
+              <li>           
+                <div>
+                  <span>
+                    <strong class="text-info">{{ comment.author }} </strong>
+                    <small class="text-muted">{{ comment.created_at }}</small>
+                  </span>
+                  <p>
+                    {{ comment.content|safe }}
+                  </p>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <strong class="text-secondary">No comments yet...</strong>
+        {% endif %}
+
+      </div>
+    </div>
   </div>
 </div>
 {% endblock body %}

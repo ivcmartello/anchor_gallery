@@ -2,16 +2,23 @@
 {% load crispy_forms_tags %}
 {% block body %}
 
-<div class="mx-auto fh5co-heading animate-box">
-  <h1 class="mt-3 text-center">Upload photo</h1>
-</div>
-<div class="form-group animate-box">
-  <form action="" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form|crispy }}
-    </br>
-    <button type="submit" class="btn btn-primary">Upload</button>
-  </form>
+{% include 'banner_upload.html' %}
+
+<div id="fh5co-gallery">
+  <div class="container">
+    <div class="mx-auto fh5co-heading animate-box">
+      <h1 class="mt-3 text-center">Upload photo</h1>
+      <p class="text-center fw-light">Your photo will be approved as soon as possible! Thank you.</p>
+    </div>
+    <div class="form-group animate-box">
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        </br>
+        <button type="submit" class="btn btn-primary">Upload</button>
+      </form>
+    </div>
+  </div>
 </div>
 
 {% endblock body %}
